@@ -5,9 +5,9 @@ using UnityEngine;
 public class WheelGenerator : MonoBehaviour
 {
 
-    [SerializeField] private UIController uIController;
-    [SerializeField] private ScoreController scoreController;
-    [SerializeField] private Transform rotationElements;
+    public UIController uIController;
+    public ScoreController scoreController;
+    public Transform rotationElements;
 
     public float rotationMaxSpeed;
     public float rotationMinSpeed;
@@ -38,6 +38,9 @@ public class WheelGenerator : MonoBehaviour
         _spin = false;
         GenerateValues();
         spinTicker = rotationElements.GetComponent<SpinTicker>();
+
+        if(uIController != null)
+            uIController.InitLabelList(_wheelValues);
     }
 
     // Update is called once per frame
@@ -91,8 +94,6 @@ public class WheelGenerator : MonoBehaviour
 
         for (int i = 0; i < _wheelValues.Count; i++)
             _wheelValues[i] *= 100;
-
-        uIController.InitLabelList(_wheelValues);
     }
 
     public void StartSpin()
@@ -118,5 +119,10 @@ public class WheelGenerator : MonoBehaviour
         _spin = true;
 
         spinTicker.StartSpin();
+    }
+
+    public List<int> GetListValues()
+    {
+        return _wheelValues;
     }
 }

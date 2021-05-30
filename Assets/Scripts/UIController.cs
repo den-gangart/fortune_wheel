@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private List<TextMeshProUGUI> labelList;
-    [SerializeField] private TextMeshProUGUI labelMoney;
-    [SerializeField] private Button buttonSpin;
-    [SerializeField] private TextMeshProUGUI labelPickUpMoney;
-    [SerializeField] private Animator animatorPickUpMoney;
+    public List<TextMeshProUGUI> labelList;
+    public TextMeshProUGUI labelMoney;
+    public Button buttonSpin;
+    public TextMeshProUGUI labelPickUpMoney;
+    public Animator animatorPickUpMoney;
 
     public void OnBackToMenu()
     {

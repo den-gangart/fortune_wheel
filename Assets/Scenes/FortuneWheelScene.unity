@@ -1952,7 +1952,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 630863024}
-  - component: {fileID: 630863023}
   - component: {fileID: 630863022}
   m_Layer: 0
   m_Name: Button Sound
@@ -2057,18 +2056,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &630863023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630863021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fed9b5993a35d94a9db8e2507cccad2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &630863024
 Transform:
   m_ObjectHideFlags: 0
@@ -2734,7 +2721,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 969974357}
-  - component: {fileID: 969974359}
   - component: {fileID: 969974358}
   m_Layer: 0
   m_Name: Spin Sound
@@ -2853,18 +2839,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &969974359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969974356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fed9b5993a35d94a9db8e2507cccad2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &991053706
 GameObject:
   m_ObjectHideFlags: 0
