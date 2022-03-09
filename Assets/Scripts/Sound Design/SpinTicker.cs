@@ -17,6 +17,8 @@ public class SpinTicker : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        WheelEventSystem.AddWheelEventListener(WheelEvent.OnEndSpin, EndSpin);
+        WheelEventSystem.AddWheelEventListener(WheelEvent.OnStartSpin, StartSpin);
     }
 
     // Update is called once per frame

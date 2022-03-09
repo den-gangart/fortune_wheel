@@ -7,6 +7,6 @@ public class MainUI : MonoBehaviour
 {
     public void OnLoadWheel()
     {
-        SceneManager.LoadScene("FortuneWheelScene");
+        SceneManager.LoadScene(GameScenes.GAME_ROOM);
     }
 }

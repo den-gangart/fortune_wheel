@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using TMPro;
 
 public class WheelGenerator : MonoBehaviour
 {
+    [SerializeField] private Transform rotationElements;
 
-    public UIController uIController;
-    public ScoreController scoreController;
-    public Transform rotationElements;
-
-    public float rotationMaxSpeed;
-    public float rotationMinSpeed;
-    public int revolutionCount;
+    [SerializeField] private float rotationMaxSpeed;
+    [SerializeField] private float rotationMinSpeed;
+    [SerializeField] private int revolutionCount;
+    [SerializeField] private List<TextMeshProUGUI> _wheelSegments;
 
     private List<int> _wheelValues;
     private const int COUNT_OF_PIE = 16;
@@ -30,17 +30,12 @@ public class WheelGenerator : MonoBehaviour
     private int prevIndex;
     private int randomIndex;
 
-    private SpinTicker spinTicker;
-
     // Start is called before the first frame update
     void Start()
     {
         _spin = false;
         GenerateValues();
-        spinTicker = rotationElements.GetComponent<SpinTicker>();
-
-        if(uIController != null)
-            uIController.InitLabelList(_wheelValues);
+        InitWheelSectors();
     }
 
     // Update is called once per frame
@@ -65,11 +60,11 @@ public class WheelGenerator : MonoBehaviour
         }
     }
 
+
     private void OnFinishSpin()
     {
-        scoreController.AddMoney(winValue);
-        spinTicker.EndSpin();
-        uIController.EnableSpin();
+        WheelEventSystem.Broadcast(WheelEvent.OnEndSpin);
+        WheelEventSystem.Broadcast(WheelEvent.OnCoinWin, winValue);
     }
 
     private void GenerateValues()
@@ -81,7 +76,7 @@ public class WheelGenerator : MonoBehaviour
             int value = 0;
             while(value == 0)
             {
-                value = Random.Range(minValue, maxValue+1);
+                value = UnityEngine.Random.Range(minValue, maxValue+1);
                 for (int j = 0; j < _wheelValues.Count; j++)
                     if (_wheelValues[j] - value < 10 && _wheelValues[j] - value > -10)
                     {
@@ -100,7 +95,7 @@ public class WheelGenerator : MonoBehaviour
     {
         prevIndex += randomIndex;
 
-        randomIndex = Random.Range(0, _wheelValues.Count);
+        randomIndex = UnityEngine.Random.Range(0, _wheelValues.Count);
         winValue = _wheelValues[randomIndex];
         speed = rotationMaxSpeed;
 
@@ -118,11 +113,12 @@ public class WheelGenerator : MonoBehaviour
         endAngle +=-(angleStep*randomIndex+ CIRCLE_DEGREES * revolutionCount);
         _spin = true;
 
-        spinTicker.StartSpin();
+        WheelEventSystem.Broadcast(WheelEvent.OnStartSpin);
     }
 
-    public List<int> GetListValues()
+    public void InitWheelSectors()
     {
-        return _wheelValues;
+        for (int i = 0; i < _wheelSegments.Count; i++)
+            _wheelSegments[i].text = string.Format(StringFormatTypes.WHEEL_SECTOR, _wheelValues[i]);
     }
 }

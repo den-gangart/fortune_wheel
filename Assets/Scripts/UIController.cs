@@ -5,55 +5,59 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class UIController : MonoBehaviour
 {
-    public List<TextMeshProUGUI> labelList;
-    public TextMeshProUGUI labelMoney;
-    public Button buttonSpin;
-    public TextMeshProUGUI labelPickUpMoney;
-    public Animator animatorPickUpMoney;
+    [SerializeField] private TextMeshProUGUI labelMoney;
+    [SerializeField] private Button buttonSpin;
+    [SerializeField] private TextMeshProUGUI labelPickUpMoney;
+    [SerializeField] private Animator animatorPickUpMoney;
+    [SerializeField] private List<double> coinDivisionAmount;
+
+    private const string PICK_UP_TRIGGER = "PickUpMoney";
+
+    public void Awake()
+    {
+        WheelEventSystem.AddWheelEventListener(WheelEvent.OnEndSpin, EnableSpin);
+        WheelEventSystem.AddWheelEventListener(WheelEvent.OnStartSpin, DisableSpin);
+        WheelEventSystem.AddWheelEventListener<int>(WheelEvent.OnUpdateTotalEarnCredit, OnUpdateMoney);
+        WheelEventSystem.AddWheelEventListener<int>(WheelEvent.OnCoinWin, OnMoneyPickUp);
+    }
 
     public void OnBackToMenu()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene(GameScenes.MAIN_MENU);
     }
 
-    public void InitLabelList(List<int> values)
-    {
-        for(int i = 0; i < labelList.Count; i++)
-            labelList[i].text = string.Format("{0:#,0}", values[i]);
-    }
-
-    public void OnUpdateMoney(int moneyValue)
+    private void OnUpdateMoney(int moneyValue)
     {
         labelMoney.text = FormatMoneyString(moneyValue);  
     }
 
-    public void EnableSpin()
+    private void EnableSpin()
     {
         buttonSpin.enabled = true;
     }
 
-    public void DisableSpin()
+    private void DisableSpin()
     {
         buttonSpin.enabled = false;
     }
 
     public void OnMoneyPickUp(int value)
     {
-        labelPickUpMoney.text = "+"+string.Format("{0:#,0}", value);
-        animatorPickUpMoney.SetTrigger("PickUpMoney");
+        labelPickUpMoney.text = "+"+string.Format(StringFormatTypes.WHEEL_SECTOR, value);
+        animatorPickUpMoney.SetTrigger(PICK_UP_TRIGGER);
     }
 
     private string FormatMoneyString(int value)
     {
-        if (value >= 1000000000)
-            return (value / 1000000000D).ToString("0.## B");
-        if (value >= 1000000)
-            return (value / 1000000D).ToString("0.## M");
-        if (value >= 1000)
-            return (value / 1000D).ToString("0.## K");
+        for (int index = 0; index < coinDivisionAmount.Count; index++)
+        {
+            if (value >= coinDivisionAmount[index])
+                return (value / coinDivisionAmount[index]).ToString(StringFormatTypes.GetFormatForCoins((CoinDivisionIndex)index));
+        }
 
-        return value.ToString("#,0");
+        return value.ToString(StringFormatTypes.EARN_CREDIT_DEFAULT);
     }
 }
